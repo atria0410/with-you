@@ -1,17 +1,20 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Live2DModel } from 'pixi-live2d-display-lipsyncpatch/cubism4'
 import { Application, Ticker } from 'pixi.js'
+import Loading from '@/components/loading'
 import Textarea from '@/components/textarea'
+import { fetchNijivoice } from '@/utils/nijivoice'
+import { fetchOpenai } from '@/utils/openai'
 
 // TODO: ウィンドウサイズが変わったときにキャラクターの位置やサイズが変わらない
 export default function Live2D() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  useEffect(() => {
-    if (!canvasRef.current) return
+  const [model, setModel] = useState<Live2DModel | null>(null)
 
+  useEffect(() => {
     const app = new Application<HTMLCanvasElement>({
       view: canvasRef.current as HTMLCanvasElement,
       resizeTo: window,
@@ -19,38 +22,78 @@ export default function Live2D() {
     })
 
     ;(async () => {
-      const model = await Live2DModel.from('/Resources/Hiyori/Hiyori.model3.json', {
+      const _model = await Live2DModel.from('/Resources/Hiyori/Hiyori.model3.json', {
         ticker: Ticker.shared
       })
 
-      app.stage.addChild(model)
+      setModel(_model)
+
+      app.stage.addChild(_model)
 
       // キャラクターの中心を画面の中心に合わせる
-      model.anchor.set(0.5, 0.5)
-      model.x = app.renderer.width / 2
-      model.y = app.renderer.height / 2
+      _model.anchor.set(0.5, 0.5)
+      _model.x = app.renderer.width / 2
+      _model.y = app.renderer.height / 2
 
       // キャラクターのサイズを画面に合わせる
-      const scaleX = app.renderer.width / model.width
-      const scaleY = app.renderer.height / model.height
+      const scaleX = app.renderer.width / _model.width
+      const scaleY = app.renderer.height / _model.height
       const scale = Math.min(scaleX, scaleY) * 1.2
-      model.scale.set(scale)
+      _model.scale.set(scale)
 
-      model.on('hit', (hitAreas) => {
+      _model.on('hit', (hitAreas) => {
         if (hitAreas.includes('body')) {
-          model.motion('tap_body')
+          _model.motion('tap_body')
         }
       })
     })()
   }, [])
 
+  // リップシンク
+  const lipsync = async (audioLink: string) => {
+    if (!model) return
+    const volume = 1
+    const expression = 4
+    const resetExpression = true
+    const crossOrigin = 'anonymous'
+
+    model.speak(audioLink, {
+      volume: volume,
+      expression: expression,
+      resetExpression: resetExpression,
+      crossOrigin: crossOrigin
+    })
+  }
+
+  const [text, setText] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  // メッセージ送信
+  const send = async (message: string) => {
+    if (!model) return
+
+    setText('')
+    setIsLoading(true)
+
+    const answer = await fetchOpenai(message)
+    const audio = await fetchNijivoice(answer)
+    const audioLink = URL.createObjectURL(audio)
+    await lipsync(audioLink)
+
+    setText(answer)
+    setIsLoading(false)
+  }
+
   return (
     <div className="relative">
-      <canvas ref={canvasRef} className="h-full w-full" />
+      <div className="relative">
+        <canvas ref={canvasRef} className="h-full w-full" />
 
-      <div className="absolute bottom-0 left-0 w-full p-2">
-        <Textarea placeholder="メッセージを入力してください..." onSend={() => {}} />
+        <div className="absolute bottom-0 left-0 w-full p-2">
+          <Textarea placeholder="メッセージを入力してください..." onSend={send} />
+        </div>
       </div>
+      <Loading isLoading={isLoading} />
     </div>
   )
 }

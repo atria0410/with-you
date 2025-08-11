@@ -8,5 +8,5 @@
   "files.insertFinalNewline": true,
   "files.eol": "\n",
   "eslint.useFlatConfig": true,
-  "cSpell.words": ["pixi", "lipsync", "lipsyncpatch", "hiyori"]
+  "cSpell.words": ["nijivoice", "pixi", "lipsync", "lipsyncpatch", "hiyori"]
 }
