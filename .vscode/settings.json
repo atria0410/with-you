@@ -3,6 +3,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
   },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
   "files.insertFinalNewline": true,
   "files.eol": "\n",
   "eslint.useFlatConfig": true,
