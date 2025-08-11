@@ -13,6 +13,7 @@ with you は美少女AIと会話できるアプリです。
 | リンター               | ESLint            |                   |
 | フォーマッター         | Prettier          | 　                |
 | CSS フレームワーク     | Tailwind CSS      |                   |
+| キャラクター           | Live2D            |                   |
 | AI                     | ChatGPT           | GPT-5             |
 | 音声生成               | にじボイス        |                   |
 
@@ -63,5 +64,6 @@ npm run start
 
 - [Next.js](https://nextjs.org/docs)
 - [Tailwind CSS](https://tailwindcss.com/docs)
+- [Live2D](https://www.live2d.com/)
 - [ChatGPT](https://openai.com/ja-JP/index/openai-api/)
 - [にじボイス](https://nijivoice.com/)
