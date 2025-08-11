@@ -3,12 +3,15 @@
 import { useEffect, useRef } from 'react'
 import { Live2DModel } from 'pixi-live2d-display-lipsyncpatch/cubism4'
 import { Application, Ticker } from 'pixi.js'
+import Textarea from '@/components/textarea'
 
 // TODO: ウィンドウサイズが変わったときにキャラクターの位置やサイズが変わらない
 export default function Live2D() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    if (!canvasRef.current) return
+
     const app = new Application<HTMLCanvasElement>({
       view: canvasRef.current as HTMLCanvasElement,
       resizeTo: window,
@@ -30,7 +33,7 @@ export default function Live2D() {
       // キャラクターのサイズを画面に合わせる
       const scaleX = app.renderer.width / model.width
       const scaleY = app.renderer.height / model.height
-      const scale = Math.min(scaleX, scaleY) * 0.8
+      const scale = Math.min(scaleX, scaleY) * 1.2
       model.scale.set(scale)
 
       model.on('hit', (hitAreas) => {
@@ -41,5 +44,13 @@ export default function Live2D() {
     })()
   }, [])
 
-  return <canvas ref={canvasRef} />
+  return (
+    <div className="relative">
+      <canvas ref={canvasRef} className="h-full w-full" />
+
+      <div className="absolute bottom-0 left-0 w-full p-2">
+        <Textarea placeholder="メッセージを入力してください..." onSend={() => {}} />
+      </div>
+    </div>
+  )
 }

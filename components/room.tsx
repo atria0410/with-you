@@ -5,7 +5,7 @@ interface Props {
 }
 
 const roomVariants = tv({
-  base: 'flex h-screen items-center justify-center bg-cover bg-center',
+  base: 'h-screen bg-cover bg-center',
   variants: {
     time: {
       day: 'bg-[url(/images/room-day.jpg)]',
@@ -21,7 +21,7 @@ const roomVariants = tv({
 
 type Time = 'day' | 'evening' | 'night' | 'midnight' | undefined
 
-export const Room = ({ children }: Props) => {
+export default function Room({ children }: Props) {
   const hour = new Date().getHours()
   let time: Time
 
