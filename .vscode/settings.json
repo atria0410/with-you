@@ -8,5 +8,17 @@
   "files.insertFinalNewline": true,
   "files.eol": "\n",
   "eslint.useFlatConfig": true,
-  "cSpell.words": ["nijivoice", "pixi", "lipsync", "lipsyncpatch", "hiyori"]
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "cSpell.words": [
+    "supabase",
+    "autoincrement",
+    "timestamptz",
+    "nijivoice",
+    "pixi",
+    "lipsync",
+    "lipsyncpatch",
+    "hiyori"
+  ]
 }

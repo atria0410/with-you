@@ -1,0 +1,78 @@
+{
+  "users": {
+    "table": {
+      "tableName": "users",
+      "comment": "ユーザー"
+    },
+    "columns": [
+      {
+        "tableName": "users",
+        "columnName": "id",
+        "comment": "ID"
+      },
+      {
+        "tableName": "users",
+        "columnName": "name",
+        "comment": "ユーザー名"
+      },
+      {
+        "tableName": "users",
+        "columnName": "email",
+        "comment": "メールアドレス"
+      },
+      {
+        "tableName": "users",
+        "columnName": "password",
+        "comment": "パスワード"
+      },
+      {
+        "tableName": "users",
+        "columnName": "created_at",
+        "comment": "作成日時"
+      },
+      {
+        "tableName": "users",
+        "columnName": "updated_at",
+        "comment": "更新日時"
+      }
+    ]
+  },
+  "chat_logs": {
+    "table": {
+      "tableName": "chat_logs",
+      "comment": "チャットログ"
+    },
+    "columns": [
+      {
+        "tableName": "chat_logs",
+        "columnName": "id",
+        "comment": "ID"
+      },
+      {
+        "tableName": "chat_logs",
+        "columnName": "userId",
+        "comment": "ユーザーID"
+      },
+      {
+        "tableName": "chat_logs",
+        "columnName": "sender",
+        "comment": "発信者"
+      },
+      {
+        "tableName": "chat_logs",
+        "columnName": "message",
+        "comment": "メッセージ"
+      },
+      {
+        "tableName": "chat_logs",
+        "columnName": "created_at",
+        "comment": "作成日時"
+      },
+      {
+        "tableName": "chat_logs",
+        "columnName": "updated_at",
+        "comment": "更新日時"
+      }
+    ]
+  }
+}
