@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "dsznajder.es7-react-js-snippets",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "yoavbls.pretty-ts-errors",
+    "streetsidesoftware.code-spell-checker",
+    "shardulm94.trailing-spaces",
+    "wayou.vscode-todo-highlight",
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+    "donjayamanne.githistory"
+  ]
+}
