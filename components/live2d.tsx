@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Live2DModel } from 'pixi-live2d-display-lipsyncpatch/cubism4'
 import { Application, Ticker } from 'pixi.js'
 import Loading from '@/components/loading'
+import SpeechBubble from '@/components/speech-bubble'
 import Textarea from '@/components/textarea'
 import { fetchNijivoice } from '@/utils/nijivoice'
 import { fetchOpenai } from '@/utils/openai'
@@ -88,6 +89,10 @@ export default function Live2D() {
     <div className="relative">
       <div className="relative">
         <canvas ref={canvasRef} className="h-full w-full" />
+
+        <div className="absolute top-[200] left-1/2 z-10 -translate-x-1/2">
+          <SpeechBubble text={text} />
+        </div>
 
         <div className="absolute bottom-0 left-0 w-full p-2">
           <Textarea placeholder="メッセージを入力してください..." onSend={send} />
