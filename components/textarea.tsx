@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
-import MicButton from '@/components/mic-button'
+import MicButton from '@/components/button/mic-button'
 import SendButton from '@/components/send-button'
 
 interface Props {
   placeholder?: string
   onSend: (message: string) => void
   maxRows?: number
+  isLoading?: boolean
 }
 
-export default function Textarea({ placeholder, onSend, maxRows = 6 }: Props) {
+export default function Textarea({ placeholder, onSend, maxRows = 6, isLoading }: Props) {
   const [message, setMessage] = useState('')
   const { transcript, listening, resetTranscript } = useSpeechRecognition()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -85,13 +86,14 @@ export default function Textarea({ placeholder, onSend, maxRows = 6 }: Props) {
             <div className="flex items-center gap-2">
               <MicButton
                 isListening={listening}
+                disabled={isLoading}
                 onClick={
                   listening
                     ? () => SpeechRecognition.stopListening()
                     : () => SpeechRecognition.startListening()
                 }
               />
-              <SendButton disabled={message.trim() === ''} onClick={handleSend} />
+              <SendButton disabled={message.trim() === '' || isLoading} onClick={handleSend} />
             </div>
           </div>
         </div>

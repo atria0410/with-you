@@ -94,8 +94,12 @@ export default function Live2D() {
           <SpeechBubble text={text} />
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full p-2">
-          <Textarea placeholder="メッセージを入力してください..." onSend={send} />
+        <div className="absolute bottom-0 left-1/2 w-full max-w-4xl -translate-x-1/2 p-2">
+          <Textarea
+            placeholder="メッセージを入力してください..."
+            onSend={send}
+            isLoading={isLoading}
+          />
         </div>
       </div>
       <Loading isLoading={isLoading} />
