@@ -21,17 +21,19 @@ datasource db {
 /// ユーザー
 model User {
   /// ID
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   /// ユーザー名
   name      String
   /// メールアドレス
-  email     String   @unique
+  email     String    @unique
   /// パスワード
   password  String
+  /// チャットログ
+  chatLogs  ChatLog[]
   /// 作成日時
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
   /// 更新日時
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   @@map("users")
 }
@@ -45,8 +47,10 @@ enum MessageSender {
 model ChatLog {
   /// ID
   id        Int           @id @default(autoincrement())
-  /// ユーザーID
-  userId    Int
+  /// メールアドレス
+  email     String        @db.VarChar(255)
+  /// ユーザー
+  user      User          @relation(fields: [email], references: [email])
   /// 発信者
   sender    MessageSender
   /// メッセージ

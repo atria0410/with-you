@@ -50,8 +50,8 @@
       },
       {
         "tableName": "chat_logs",
-        "columnName": "userId",
-        "comment": "ユーザーID"
+        "columnName": "email",
+        "comment": "メールアドレス"
       },
       {
         "tableName": "chat_logs",

@@ -16,7 +16,7 @@ CREATE TABLE "public"."users" (
 -- CreateTable
 CREATE TABLE "public"."chat_logs" (
     "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
     "sender" "public"."MessageSender" NOT NULL,
     "message" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -27,3 +27,6 @@ CREATE TABLE "public"."chat_logs" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "public"."users"("email");
+
+-- AddForeignKey
+ALTER TABLE "public"."chat_logs" ADD CONSTRAINT "chat_logs_email_fkey" FOREIGN KEY ("email") REFERENCES "public"."users"("email") ON DELETE RESTRICT ON UPDATE CASCADE;

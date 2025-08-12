@@ -12,7 +12,7 @@ COMMENT ON COLUMN "users"."updated_at" IS '更新日時';
 -- chat_logs comments
 COMMENT ON TABLE "chat_logs" IS 'チャットログ';
 COMMENT ON COLUMN "chat_logs"."id" IS 'ID';
-COMMENT ON COLUMN "chat_logs"."userId" IS 'ユーザーID';
+COMMENT ON COLUMN "chat_logs"."email" IS 'メールアドレス';
 COMMENT ON COLUMN "chat_logs"."sender" IS '発信者';
 COMMENT ON COLUMN "chat_logs"."message" IS 'メッセージ';
 COMMENT ON COLUMN "chat_logs"."created_at" IS '作成日時';
