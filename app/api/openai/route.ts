@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: text }
       ],
-      model: 'gpt-5'
+      model: 'gpt-4o-mini'
     })
 
     const answer = response.choices[0].message?.content
