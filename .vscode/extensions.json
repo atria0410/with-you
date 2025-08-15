@@ -4,6 +4,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
     "yoavbls.pretty-ts-errors",
     "streetsidesoftware.code-spell-checker",
     "shardulm94.trailing-spaces",

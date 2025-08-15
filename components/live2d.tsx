@@ -62,7 +62,13 @@ export default function Live2D() {
       volume: volume,
       expression: expression,
       resetExpression: resetExpression,
-      crossOrigin: crossOrigin
+      crossOrigin: crossOrigin,
+      onFinish: () => {
+        // 音声再生終了から5秒後に吹き出しを消す
+        setTimeout(() => {
+          setText('')
+        }, 5000)
+      }
     })
   }
 
@@ -77,7 +83,7 @@ export default function Live2D() {
     setIsLoading(true)
 
     const answer = await fetchOpenai(message)
-    const audio = await fetchNijivoice(answer)
+    const audio = await fetchNijivoice(answer, 1.3)
     const audioLink = URL.createObjectURL(audio)
     await lipsync(audioLink)
 
@@ -90,12 +96,16 @@ export default function Live2D() {
       <div className="relative">
         <canvas ref={canvasRef} className="h-full w-full" />
 
-        <div className="absolute top-[200] left-1/2 z-10 -translate-x-1/2">
+        <div className="absolute top-[250px] left-1/2 z-10 -translate-x-1/2">
           <SpeechBubble text={text} />
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full p-2">
-          <Textarea placeholder="メッセージを入力してください..." onSend={send} />
+        <div className="absolute bottom-0 left-1/2 w-full max-w-4xl -translate-x-1/2 p-2">
+          <Textarea
+            placeholder="メッセージを入力してください..."
+            onSend={send}
+            isLoading={isLoading}
+          />
         </div>
       </div>
       <Loading isLoading={isLoading} />

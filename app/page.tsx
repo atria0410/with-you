@@ -1,16 +1,18 @@
-'use client'
-
-import dynamic from 'next/dynamic'
+import { redirect } from 'next/navigation'
+import { auth } from '@/auth'
+import Hud from '@/components/feature/hud'
+import WithYou from '@/components/feature/with-you'
 import Room from '@/components/room'
 
-const Live2D = dynamic(() => import('@/components/live2d').then((module) => module.default), {
-  ssr: false
-})
+export default async function Home() {
+  // サインインしていない場合はサインイン画面にリダイレクト
+  const session = await auth()
+  if (!session) return redirect('/sign-in')
 
-export default function Home() {
   return (
     <Room>
-      <Live2D />
+      <WithYou />
+      <Hud />
     </Room>
   )
 }

@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator comments {
+  provider = "prisma-db-comments-generator"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// ユーザー
+model User {
+  /// ID
+  id        Int       @id @default(autoincrement())
+  /// ユーザー名
+  name      String
+  /// メールアドレス
+  email     String    @unique
+  /// パスワード
+  password  String
+  /// チャットログ
+  chatLogs  ChatLog[]
+  /// 作成日時
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  /// 更新日時
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("users")
+}
+
+enum MessageSender {
+  USER
+  AI
+}
+
+/// チャットログ
+model ChatLog {
+  /// ID
+  id        Int           @id @default(autoincrement())
+  /// メールアドレス
+  email     String        @db.VarChar(255)
+  /// ユーザー
+  user      User          @relation(fields: [email], references: [email])
+  /// 発信者
+  sender    MessageSender
+  /// メッセージ
+  message   String
+  /// 作成日時
+  createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  /// 更新日時
+  updatedAt DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("chat_logs")
+}
+
+/// 認証コード
+model AuthCode {
+  /// メールアドレス
+  email     String   @unique
+  /// パスワード
+  password  String
+  /// 認証コード
+  code      Int
+  /// 有効期限
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
+  /// 作成日時
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  /// 更新日時
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("auth_codes")
+}
