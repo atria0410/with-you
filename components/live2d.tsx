@@ -77,7 +77,7 @@ export default function Live2D() {
     setIsLoading(true)
 
     const answer = await fetchOpenai(message)
-    const audio = await fetchNijivoice(answer)
+    const audio = await fetchNijivoice(answer, 1.3)
     const audioLink = URL.createObjectURL(audio)
     await lipsync(audioLink)
 
