@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
-import Hud from '@/components/feature/hud'
 import WithYou from '@/components/feature/with-you'
 import Room from '@/components/room'
 
@@ -12,7 +11,6 @@ export default async function Home() {
   return (
     <Room>
       <WithYou />
-      <Hud />
     </Room>
   )
 }

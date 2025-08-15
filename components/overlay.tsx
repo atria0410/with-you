@@ -8,7 +8,10 @@ interface Props {
 
 export default function Overlay({ children, className, onClick }: Props) {
   return (
-    <div className={cn('flex h-screen w-screen bg-gray-500/80', className)} onClick={onClick}>
+    <div
+      className={cn('fixed top-0 left-0 h-screen w-screen bg-gray-500/80', className)}
+      onClick={onClick}
+    >
       {children}
     </div>
   )
