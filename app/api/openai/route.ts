@@ -3,6 +3,7 @@ import { auth } from '@/auth'
 import { openai, systemPrompt } from '@/lib/openai'
 import prisma from '@/lib/prisma'
 import { MessageSender } from '@prisma/client'
+import { ChatCompletionMessageParam } from 'openai/resources/chat/completions'
 
 export async function GET(request: NextRequest) {
   const session = await auth()
@@ -19,14 +20,31 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // チャットログを取得
+    const history = (
+      await prisma.chatLog.findMany({
+        where: { email: session.user.email },
+        orderBy: { id: 'desc', createdAt: 'desc' },
+        take: 20
+      })
+    ).reverse()
+
+    // ChatGPT API を呼び出し
     const response = await openai.chat.completions.create({
       messages: [
         { role: 'system', content: systemPrompt },
+        ...history.map(
+          (h): ChatCompletionMessageParam => ({
+            role: h.sender === MessageSender.USER ? 'user' : 'assistant',
+            content: h.message
+          })
+        ),
         { role: 'user', content: text }
       ],
       model: 'gpt-4o-mini'
     })
 
+    // 回答を取得
     const answer = response.choices[0].message?.content || ''
 
     // チャットログを保存
