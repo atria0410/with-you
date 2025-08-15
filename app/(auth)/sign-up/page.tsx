@@ -1,35 +1,32 @@
 'use client'
 
 import { useActionState } from 'react'
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import {
-  type FormState,
-  signInWithCredentials,
-  signInWithGithub,
-  signInWithGoogle
-} from '@/app/action/sign-in-action'
+import { useRouter } from 'next/navigation'
+import { type FormState, sendAuthCode } from '@/app/action/sign-up-action'
 import Button from '@/components/button/button'
-import { GithubAuthButton, GoogleAuthButton } from '@/components/button/o-auth-button'
 import Card from '@/components/card'
 import TextField from '@/components/form/text-field'
 
 const initialState: FormState = {
   fields: {
-    email: ''
+    email: '',
+    password: '',
+    passwordConfirmation: ''
   },
   errors: {},
   result: false,
   message: ''
 }
 
-export default function SignInPage() {
+export default function SignUpPage() {
+  const router = useRouter()
+
   const [state, formAction, isPending] = useActionState<FormState, FormData>(
     async (prevState: FormState, formData: FormData) => {
-      const result = await signInWithCredentials(prevState, formData)
+      const result = await sendAuthCode(prevState, formData)
 
       if (result.result) {
-        redirect('/')
+        router.push(`/sign-up/verify?email=${encodeURIComponent(result.fields.email)}`)
       }
 
       return result
@@ -41,11 +38,10 @@ export default function SignInPage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-gray-800">サインイン</h1>
+          <h1 className="mb-2 text-3xl font-bold text-gray-800">新規登録</h1>
         </div>
         <Card className="space-y-4 p-6">
-          {/* メールアドレスとパスワードでサインイン */}
-          <form action={formAction} className="space-y-1">
+          <form action={formAction} className="space-y-2">
             {state.message && (
               <p className="mb-4 text-center text-sm text-red-500">{state.message}</p>
             )}
@@ -63,35 +59,24 @@ export default function SignInPage() {
                 name="password"
                 label="パスワード"
                 type="password"
+                defaultValue={state.fields.password}
                 errorMessage={state.errors?.password}
               />
             </div>
+            <div>
+              <TextField
+                name="passwordConfirmation"
+                label="パスワード確認"
+                type="password"
+                defaultValue={state.fields.passwordConfirmation}
+                errorMessage={state.errors?.passwordConfirmation}
+              />
+            </div>
             <div className="mt-6">
-              <Button type="submit" isLoading={isPending} block>
-                サインイン
+              <Button type="submit" block isLoading={isPending}>
+                認証コードを送信
               </Button>
             </div>
-          </form>
-
-          <div className="flex items-center justify-center">
-            <Link href="/sign-up" className="text-sm text-blue-500">
-              新規登録はこちら
-            </Link>
-          </div>
-
-          {/* 区切り線 */}
-          <div className="my-6 flex items-center">
-            <div className="flex-1 border-t border-gray-300"></div>
-            <div className="px-4 text-sm text-gray-500">または</div>
-            <div className="flex-1 border-t border-gray-300"></div>
-          </div>
-          {/* Googleでサインイン */}
-          <form action={signInWithGoogle}>
-            <GoogleAuthButton type="submit" />
-          </form>
-          {/* Githubでサインイン */}
-          <form action={signInWithGithub}>
-            <GithubAuthButton type="submit" />
           </form>
         </Card>
       </div>

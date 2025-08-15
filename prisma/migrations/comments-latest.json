@@ -74,5 +74,43 @@
         "comment": "更新日時"
       }
     ]
+  },
+  "auth_codes": {
+    "table": {
+      "tableName": "auth_codes",
+      "comment": "認証コード"
+    },
+    "columns": [
+      {
+        "tableName": "auth_codes",
+        "columnName": "email",
+        "comment": "メールアドレス"
+      },
+      {
+        "tableName": "auth_codes",
+        "columnName": "password",
+        "comment": "パスワード"
+      },
+      {
+        "tableName": "auth_codes",
+        "columnName": "code",
+        "comment": "認証コード"
+      },
+      {
+        "tableName": "auth_codes",
+        "columnName": "expires_at",
+        "comment": "有効期限"
+      },
+      {
+        "tableName": "auth_codes",
+        "columnName": "created_at",
+        "comment": "作成日時"
+      },
+      {
+        "tableName": "auth_codes",
+        "columnName": "updated_at",
+        "comment": "更新日時"
+      }
+    ]
   }
 }

@@ -17,3 +17,12 @@ COMMENT ON COLUMN "chat_logs"."sender" IS '発信者';
 COMMENT ON COLUMN "chat_logs"."message" IS 'メッセージ';
 COMMENT ON COLUMN "chat_logs"."created_at" IS '作成日時';
 COMMENT ON COLUMN "chat_logs"."updated_at" IS '更新日時';
+
+-- auth_codes comments
+COMMENT ON TABLE "auth_codes" IS '認証コード';
+COMMENT ON COLUMN "auth_codes"."email" IS 'メールアドレス';
+COMMENT ON COLUMN "auth_codes"."password" IS 'パスワード';
+COMMENT ON COLUMN "auth_codes"."code" IS '認証コード';
+COMMENT ON COLUMN "auth_codes"."expires_at" IS '有効期限';
+COMMENT ON COLUMN "auth_codes"."created_at" IS '作成日時';
+COMMENT ON COLUMN "auth_codes"."updated_at" IS '更新日時';

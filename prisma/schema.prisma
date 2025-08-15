@@ -62,3 +62,21 @@ model ChatLog {
 
   @@map("chat_logs")
 }
+
+/// 認証コード
+model AuthCode {
+  /// メールアドレス
+  email     String   @unique
+  /// パスワード
+  password  String
+  /// 認証コード
+  code      Int
+  /// 有効期限
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
+  /// 作成日時
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  /// 更新日時
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("auth_codes")
+}
