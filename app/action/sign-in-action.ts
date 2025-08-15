@@ -54,9 +54,7 @@ export const signInWithCredentials = async (
     console.error(error)
 
     if (error instanceof z.ZodError) {
-      const { fieldErrors } = z.flattenError(error) as {
-        fieldErrors: { [key: string]: string[] }
-      }
+      const { fieldErrors } = error.flatten()
 
       return {
         fields: {

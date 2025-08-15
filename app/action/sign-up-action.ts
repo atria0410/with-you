@@ -7,7 +7,7 @@ import { z } from 'zod'
 
 const signUpSchema = z
   .object({
-    email: z.email({ message: 'メールアドレスの形式が不正です' }),
+    email: z.string().email({ message: 'メールアドレスの形式が不正です' }),
     password: z.string().min(8, { message: 'パスワードは8文字以上で入力してください' }),
     passwordConfirmation: z.string().min(1, { message: 'パスワード（確認）を入力してください' })
   })
@@ -72,9 +72,7 @@ export async function sendAuthCode(_prevState: FormState, formData: FormData): P
     console.error(error)
 
     if (error instanceof z.ZodError) {
-      const { fieldErrors } = z.flattenError(error) as {
-        fieldErrors: { [key: string]: string[] }
-      }
+      const { fieldErrors } = error.flatten()
 
       return {
         fields: {
