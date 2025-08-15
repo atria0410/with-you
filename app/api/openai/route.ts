@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     const history = (
       await prisma.chatLog.findMany({
         where: { email: session.user.email },
-        orderBy: { id: 'desc', createdAt: 'desc' },
+        orderBy: [{ id: 'desc' }, { createdAt: 'desc' }],
         take: 20
       })
     ).reverse()
