@@ -32,7 +32,7 @@ export default function Live2D() {
       app.stage.addChild(_model)
 
       // キャラクターの中心を画面の中心に合わせる
-      _model.anchor.set(0.5, 0.5)
+      _model.anchor.set(0.5, 0.45)
       _model.x = app.renderer.width / 2
       _model.y = app.renderer.height / 2
 
@@ -91,22 +91,45 @@ export default function Live2D() {
     setIsLoading(false)
   }
 
+  const [bottomOffset, setBottomOffset] = useState(0)
+
+  useEffect(() => {
+    if (window.visualViewport === null) return
+
+    const updateOffset = () => {
+      const viewport = window.visualViewport
+      const heightDiff = window.innerHeight - (viewport?.height ?? 0)
+      // キーボードが出ている時だけ高さを補正
+      setBottomOffset(heightDiff > 0 ? heightDiff : 0)
+    }
+
+    window.visualViewport.addEventListener('resize', updateOffset)
+    window.visualViewport.addEventListener('scroll', updateOffset)
+
+    return () => {
+      if (window.visualViewport === null) return
+      window.visualViewport.removeEventListener('resize', updateOffset)
+      window.visualViewport.removeEventListener('scroll', updateOffset)
+    }
+  }, [])
+
   return (
-    <div className="relative">
-      <div className="relative">
-        <canvas ref={canvasRef} className="h-full w-full" />
+    <div>
+      <canvas ref={canvasRef} className="h-svh w-full" />
 
-        <div className="absolute top-[250px] left-1/2 z-10 -translate-x-1/2">
-          <SpeechBubble text={text} />
-        </div>
+      <div className="absolute top-[250px] left-1/2 z-10 -translate-x-1/2">
+        <SpeechBubble text={text} />
+      </div>
 
-        <div className="absolute bottom-0 left-1/2 w-full max-w-4xl -translate-x-1/2 p-2">
-          <Textarea
-            placeholder="メッセージを入力してください..."
-            onSend={send}
-            isLoading={isLoading}
-          />
-        </div>
+      <div
+        className="fixed bottom-0 left-1/2 w-full max-w-4xl -translate-x-1/2 p-2"
+        style={{ bottom: bottomOffset }}
+      >
+        <Textarea
+          placeholder="メッセージを入力してください..."
+          onSend={send}
+          isLoading={isLoading}
+        />
       </div>
       <Loading isLoading={isLoading} />
     </div>
