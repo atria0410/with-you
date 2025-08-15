@@ -5,7 +5,7 @@ interface Props {
 }
 
 const roomVariants = tv({
-  base: 'h-screen bg-cover bg-center',
+  base: 'h-svh w-full bg-cover bg-center',
   variants: {
     time: {
       day: 'bg-[url(/images/room-day.jpg)]',
