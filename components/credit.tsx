@@ -1,24 +1,23 @@
 import Image from 'next/image'
 import NextLink from 'next/link'
 import Card from '@/components/card'
+import Overlay from '@/components/overlay'
 
 interface Props {
+  isOpen: boolean
   onClose: () => void
   onClickOutside?: () => void
 }
 
-export default function Credit({ onClose, onClickOutside }: Props) {
+export default function Credit({ isOpen, onClose, onClickOutside }: Props) {
   const handleClickOutside = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClickOutside?.()
     }
   }
 
-  return (
-    <div
-      className="relative flex h-screen w-screen justify-center bg-gray-500/80"
-      onClick={handleClickOutside}
-    >
+  return isOpen ? (
+    <Overlay className="relative" onClick={handleClickOutside}>
       <div className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
         <Card className="flex flex-col items-center space-y-10 px-10 py-4">
           <h1 className="text-md font-bold text-gray-800">クレジット</h1>
@@ -32,13 +31,13 @@ export default function Credit({ onClose, onClickOutside }: Props) {
             <Image src="/icons/nijivoice.svg" alt="Live2D" width={200} height={200} />
           </NextLink>
           <div
-            className="cursor-pointer text-center text-blue-500 hover:text-blue-600"
+            className="cursor-pointer px-2 text-center text-blue-500 hover:text-blue-600"
             onClick={onClose}
           >
             閉じる
           </div>
         </Card>
       </div>
-    </div>
-  )
+    </Overlay>
+  ) : null
 }

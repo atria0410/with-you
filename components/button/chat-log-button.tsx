@@ -1,26 +1,16 @@
-'use client'
-
-import { useState } from 'react'
 import { MessageSquareMore } from 'lucide-react'
-import ChatLog from '@/components/chat-log'
 
-export default function ChatLogButton() {
-  const [isOpen, setIsOpen] = useState(false)
+interface Props {
+  onClick: () => void
+}
 
+export default function ChatLogButton({ onClick }: Props) {
   return (
-    <div>
-      {isOpen ? (
-        <div className="absolute top-0 left-0 z-20">
-          <ChatLog isOpen={isOpen} onClose={() => setIsOpen(false)} />
-        </div>
-      ) : (
-        <button
-          className="flex cursor-pointer items-center gap-2 rounded-full border border-white bg-gradient-to-br from-blue-500 to-purple-500 p-2 text-white hover:opacity-80 active:scale-95"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <MessageSquareMore className="h-5 w-5" />
-        </button>
-      )}
-    </div>
+    <button
+      className="flex cursor-pointer items-center gap-2 rounded-full border border-white bg-gradient-to-br from-blue-500 to-purple-500 p-2 text-white hover:opacity-80 active:scale-95"
+      onClick={onClick}
+    >
+      <MessageSquareMore className="h-5 w-5" />
+    </button>
   )
 }

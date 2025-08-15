@@ -10,7 +10,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const buttonVariants = tv({
-  base: 'h-[42px] w-full cursor-pointer rounded-md bg-blue-500 p-2 text-white',
+  base: 'h-[42px] cursor-pointer rounded-md bg-blue-500 p-2 text-white',
   variants: {
     disabled: {
       true: 'cursor-default opacity-50'

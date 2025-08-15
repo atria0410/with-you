@@ -1,8 +1,6 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
-import ChatLogButton from '@/components/button/chat-log-button'
-import CreditButton from '@/components/button/credit-button'
-import SignOutButton from '@/components/button/sign-out-button'
+import Hud from '@/components/feature/hud'
 import WithYou from '@/components/feature/with-you'
 import Room from '@/components/room'
 
@@ -13,18 +11,8 @@ export default async function Home() {
 
   return (
     <Room>
-      <div className="relative h-full w-full">
-        <div className="absolute top-0 right-0 z-10 p-2">
-          <SignOutButton />
-        </div>
-        <div className="absolute top-0 left-0 z-10 flex flex-col items-center gap-4 p-2">
-          <ChatLogButton />
-          <CreditButton />
-        </div>
-        <div className="absolute top-0 left-0 z-5">
-          <WithYou />
-        </div>
-      </div>
+      <WithYou />
+      <Hud />
     </Room>
   )
 }
