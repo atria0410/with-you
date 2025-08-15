@@ -26,7 +26,7 @@ export default function VerifyAuthCode() {
   const [state, formAction, isPending] = useActionState(verifyAction, initialState)
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+    <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
       <div className="w-md">
         {state.result ? (
           <Card className="flex flex-col items-center justify-center space-y-4 px-4 py-6">
