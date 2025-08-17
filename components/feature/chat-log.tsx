@@ -23,22 +23,28 @@ export default function ChatLog({ isOpen, onClose }: Props) {
   const [chatLogs, setChatLogs] = useState<ChatLog[]>([])
   const scrollRef = useRef<HTMLDivElement>(null)
 
+  // チャットログを取得
   const fetchChatLogs = useCallback(async () => {
+    if (!isOpen) return
     const response = await fetch(`/api/chat-log?limit=100`)
     const data = await response.json()
     setChatLogs(data)
-  }, [])
+  }, [isOpen])
 
   useEffect(() => {
     fetchChatLogs()
   }, [fetchChatLogs])
 
-  // chatLogs 更新時にスクロールを最下部へ
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-    }
+  // スクロールを最下部へ
+  const scrollToBottom = useCallback(() => {
+    if (chatLogs.length === 0) return
+    if (!scrollRef.current) return
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [chatLogs])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [scrollToBottom])
 
   return isOpen ? (
     <Overlay className="flex h-full w-full items-center justify-center">

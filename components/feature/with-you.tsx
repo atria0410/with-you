@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic'
 import ChatLogButton from '@/components/button/chat-log-button'
 import CreditButton from '@/components/button/credit-button'
 import SignOutButton from '@/components/button/sign-out-button'
-import ChatLog from '@/components/chat-log'
-import Credit from '@/components/credit'
+import ChatLog from '@/components/feature/chat-log'
+import Credit from '@/components/feature/credit'
 
 const Live2D = dynamic(() => import('@/components/live2d').then((module) => module.default), {
   ssr: false

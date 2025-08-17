@@ -9,56 +9,99 @@ import Textarea from '@/components/textarea'
 import { fetchNijivoice } from '@/utils/nijivoice'
 import { fetchOpenai } from '@/utils/openai'
 
-// TODO: ウィンドウサイズが変わったときにキャラクターの位置やサイズが変わらない
+// キャラクターの位置を設定
+const setModelPosition = (
+  app: Application,
+  model: Live2DModel,
+  originalWidth: number,
+  originalHeight: number
+) => {
+  model.x = app.renderer.width / 2
+  model.y = app.renderer.height / 2
+
+  const scaleX = app.renderer.width / originalWidth
+  const scaleY = app.renderer.height / originalHeight
+  const scale = Math.min(scaleX, scaleY) * 1.2
+  model.scale.set(scale)
+}
+
 export default function Live2D() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const [model, setModel] = useState<Live2DModel | null>(null)
+  const [appState, setAppState] = useState<Application | null>(null)
+  const [modelState, setModelState] = useState<Live2DModel | null>(null)
+  const [originalModelSize, setOriginalModelSize] = useState<{
+    width: number
+    height: number
+  } | null>(null)
 
   useEffect(() => {
+    if (!canvasRef.current) return
+
     const app = new Application<HTMLCanvasElement>({
+      width: canvasRef.current.clientWidth,
+      height: canvasRef.current.clientHeight,
       view: canvasRef.current as HTMLCanvasElement,
       resizeTo: window,
       backgroundAlpha: 0
     })
 
-    ;(async () => {
-      const _model = await Live2DModel.from('/Resources/Hiyori/Hiyori.model3.json', {
-        ticker: Ticker.shared
-      })
-
-      setModel(_model)
-
-      app.stage.addChild(_model)
-
-      // キャラクターの中心を画面の中心に合わせる
-      _model.anchor.set(0.5, 0.45)
-      _model.x = app.renderer.width / 2
-      _model.y = app.renderer.height / 2
-
-      // キャラクターのサイズを画面に合わせる
-      const scaleX = app.renderer.width / _model.width
-      const scaleY = app.renderer.height / _model.height
-      const scale = Math.min(scaleX, scaleY) * 1.2
-      _model.scale.set(scale)
-
-      _model.on('hit', (hitAreas) => {
-        if (hitAreas.includes('body')) {
-          _model.motion('tap_body')
-        }
-      })
-    })()
+    setAppState(app)
+    initLive2D(app)
   }, [])
+
+  const initLive2D = async (currentApp: Application) => {
+    const model = await Live2DModel.from('/Resources/Hiyori/Hiyori.model3.json', {
+      ticker: Ticker.shared
+    })
+
+    currentApp.stage.addChild(model)
+
+    model.anchor.set(0.5, 0.45)
+
+    // モデルの元のサイズを保存（スケール適用前）
+    const originalWidth = model.width
+    const originalHeight = model.height
+    setOriginalModelSize({ width: originalWidth, height: originalHeight })
+
+    setModelPosition(currentApp, model, originalWidth, originalHeight)
+
+    model.on('hit', (hitAreas) => {
+      if (hitAreas.includes('body')) {
+        model.motion('tap_body')
+      }
+    })
+
+    setModelState(model)
+  }
+
+  useEffect(() => {
+    if (!appState || !modelState || !originalModelSize) return
+
+    const onResize = () => {
+      if (!canvasRef.current) return
+
+      appState.renderer.resize(canvasRef.current.clientWidth, canvasRef.current.clientHeight)
+
+      // 元のサイズを使用してリサイズ
+      setModelPosition(appState, modelState, originalModelSize.width, originalModelSize.height)
+    }
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      window.removeEventListener('resize', onResize)
+    }
+  }, [appState, modelState, originalModelSize])
 
   // リップシンク
   const lipsync = async (audioLink: string) => {
-    if (!model) return
+    if (!modelState) return
     const volume = 1
     const expression = 4
     const resetExpression = true
     const crossOrigin = 'anonymous'
 
-    model.speak(audioLink, {
+    modelState.speak(audioLink, {
       volume: volume,
       expression: expression,
       resetExpression: resetExpression,
@@ -77,7 +120,7 @@ export default function Live2D() {
 
   // メッセージ送信
   const send = async (message: string) => {
-    if (!model) return
+    if (!modelState) return
 
     setText('')
     setIsLoading(true)
