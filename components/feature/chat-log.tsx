@@ -24,10 +24,11 @@ export default function ChatLog({ isOpen, onClose }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const fetchChatLogs = useCallback(async () => {
+    if (!isOpen) return
     const response = await fetch(`/api/chat-log?limit=100`)
     const data = await response.json()
     setChatLogs(data)
-  }, [])
+  }, [isOpen])
 
   useEffect(() => {
     fetchChatLogs()
