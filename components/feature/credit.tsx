@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import NextLink from 'next/link'
 import Card from '@/components/card'
+import Logo from '@/components/feature/logo'
 import Overlay from '@/components/overlay'
 
 interface Props {
@@ -18,8 +19,9 @@ export default function Credit({ isOpen, onClose, onClickOutside }: Props) {
 
   return isOpen ? (
     <Overlay className="flex items-center justify-center" onClick={handleClickOutside}>
-      <Card className="flex flex-col items-center space-y-10 px-10 py-4">
-        <h1 className="text-md font-bold text-gray-800">クレジット</h1>
+      <Card className="flex flex-col items-center space-y-8 px-10 py-4">
+        <Logo />
+        <span className="text-md text-gray-800">クレジット</span>
         <NextLink href="https://openai.com/" target="_blank">
           <Image src="/icons/openai.svg" alt="Live2D" width={200} height={200} />
         </NextLink>
