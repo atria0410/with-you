@@ -20,10 +20,14 @@ with you は美少女AIと会話できるアプリです。
 | AI                     | ChatGPT           | GPT-5             |
 | 音声生成               | にじボイス        |                   |
 
+## アーキテクチャ
+
+![アーキテクチャ](architecture.png)
+
 ## 開発環境の構築
 
 .env.exampleをコピーして.envを作成してください。  
-.envにChatGPT と にじボイスのAPIキーを記述してください。
+.envに各種APIキーを記述してください。
 
 ### Step 2
 
