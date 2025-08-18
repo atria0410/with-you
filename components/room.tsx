@@ -23,7 +23,8 @@ const roomVariants = tv({
 type Time = 'day' | 'evening' | 'night' | 'midnight' | undefined
 
 export default function Room({ children }: Props) {
-  const hour = dayjs().hour()
+  const hour = dayjs().tz('Asia/Tokyo').hour()
+
   let time: Time
 
   if (hour >= 6 && hour < 17) {
