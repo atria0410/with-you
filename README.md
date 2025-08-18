@@ -17,7 +17,7 @@ with you は美少女AIと会話できるアプリです。
 | DB                     | Supabase          |                   |
 | ORM                    | Prisma            |                   |
 | キャラクター           | Live2D            |                   |
-| AI                     | ChatGPT           | GPT-5             |
+| AI                     | ChatGPT           | GPT-4o            |
 | 音声生成               | にじボイス        |                   |
 
 ## アーキテクチャ
