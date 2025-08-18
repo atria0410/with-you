@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { auth } from '@/auth'
 import { z } from 'zod'
 
 const voiceActorId = 'd158278c-c4fa-461a-b271-468146ad51c9' // 冬月 初音
@@ -14,6 +15,12 @@ const schema = z.object({
 })
 
 export async function POST(request: NextRequest) {
+  const session = await auth()
+
+  if (!session || !session.user) {
+    return NextResponse.json({ error: 'ログインしてください' }, { status: 401 })
+  }
+
   try {
     const formData = await request.formData()
 

@@ -12,6 +12,7 @@ import {
 import Button from '@/components/button/button'
 import { GithubAuthButton, GoogleAuthButton } from '@/components/button/o-auth-button'
 import Card from '@/components/card'
+import Logo from '@/components/feature/logo'
 import TextField from '@/components/form/text-field'
 
 const initialState: FormState = {
@@ -38,10 +39,10 @@ export default function SignInPage() {
   )
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+    <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
       <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-gray-800">サインイン</h1>
+        <div className="mb-8 flex justify-center">
+          <Logo />
         </div>
         <Card className="space-y-4 p-6">
           {/* メールアドレスとパスワードでサインイン */}

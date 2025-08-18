@@ -1,3 +1,4 @@
+import dayjs from '@/lib/dayjs'
 import { tv } from 'tailwind-variants'
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
 }
 
 const roomVariants = tv({
-  base: 'h-screen bg-cover bg-center',
+  base: 'h-svh w-full bg-cover bg-center',
   variants: {
     time: {
       day: 'bg-[url(/images/room-day.jpg)]',
@@ -22,7 +23,7 @@ const roomVariants = tv({
 type Time = 'day' | 'evening' | 'night' | 'midnight' | undefined
 
 export default function Room({ children }: Props) {
-  const hour = new Date().getHours()
+  const hour = dayjs().hour()
   let time: Time
 
   if (hour >= 6 && hour < 17) {

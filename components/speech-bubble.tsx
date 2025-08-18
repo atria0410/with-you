@@ -8,7 +8,7 @@ export default function SpeechBubble({ text = '' }: Props) {
   if (!text) return null
 
   return (
-    <div className="relative inline-block px-2">
+    <div className="relative inline-block max-w-md px-2">
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: -10 }}
