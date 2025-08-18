@@ -8,7 +8,7 @@ import {
   signInWithCredentials,
   signInWithGithub,
   signInWithGoogle
-} from '@/app/action/sign-in-action'
+} from '@/app/action/sign-in/sign-in-action'
 import Button from '@/components/button/button'
 import { GithubAuthButton, GoogleAuthButton } from '@/components/button/o-auth-button'
 import Card from '@/components/card'
@@ -74,9 +74,12 @@ export default function SignInPage() {
             </div>
           </form>
 
-          <div className="flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-4">
             <Link href="/sign-up" className="text-sm text-blue-500">
               新規登録はこちら
+            </Link>
+            <Link href="/forgot-password" className="text-sm text-blue-500">
+              パスワードを忘れた場合
             </Link>
           </div>
 

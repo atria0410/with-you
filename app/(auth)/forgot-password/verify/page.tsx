@@ -3,7 +3,7 @@
 import { Suspense, useActionState, useState } from 'react'
 import Link from 'next/link'
 import { redirect, useSearchParams } from 'next/navigation'
-import { type FormState, verifyAction } from '@/app/action/sign-up/verify-action'
+import { type FormState, verifyAction } from '@/app/action/forgot-password/verify-action'
 import { LucideCheck } from 'lucide-react'
 import Button from '@/components/button/button'
 import Card from '@/components/card'
