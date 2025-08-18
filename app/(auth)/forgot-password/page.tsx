@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react'
 import { useRouter } from 'next/navigation'
-import { type FormState, sendAuthCode } from '@/app/action/sign-up/send-auth-code'
+import { type FormState, sendAuthCode } from '@/app/action/forgot-password/send-auth-code'
 import Button from '@/components/button/button'
 import Card from '@/components/card'
 import TextField from '@/components/form/text-field'
@@ -26,7 +26,7 @@ export default function SignUpPage() {
       const result = await sendAuthCode(prevState, formData)
 
       if (result.result) {
-        router.push(`/sign-up/verify?email=${encodeURIComponent(result.fields.email)}`)
+        router.push(`/forgot-password/verify?email=${encodeURIComponent(result.fields.email)}`)
       }
 
       return result
@@ -38,7 +38,7 @@ export default function SignUpPage() {
     <div className="flex min-h-dvh items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-gray-800">新規登録</h1>
+          <h1 className="mb-2 text-3xl font-bold text-gray-800">パスワードを再設定</h1>
         </div>
         <Card className="space-y-4 p-6">
           <form action={formAction} className="space-y-2">

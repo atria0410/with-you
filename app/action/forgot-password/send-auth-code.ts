@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 import nodemailer from 'nodemailer'
 import { z } from 'zod'
 
-const signUpSchema = z
+const sendAuthCodeSchema = z
   .object({
     email: z.string().email({ message: 'メールアドレスの形式が不正です' }),
     password: z.string().min(8, { message: 'パスワードは8文字以上で入力してください' }),
@@ -14,10 +14,6 @@ const signUpSchema = z
   .refine((data) => data.password === data.passwordConfirmation, {
     message: 'パスワードが一致しません',
     path: ['passwordConfirmation']
-  })
-  .refine(async (data) => !(await userAlreadyExists(data.email)), {
-    message: 'このメールアドレスは既に使用されています',
-    path: ['email']
   })
 
 export type FormState = {
@@ -43,7 +39,7 @@ export type FormState = {
  */
 export async function sendAuthCode(_prevState: FormState, formData: FormData): Promise<FormState> {
   try {
-    const { email, password, passwordConfirmation } = await signUpSchema.parseAsync({
+    const { email, password, passwordConfirmation } = await sendAuthCodeSchema.parseAsync({
       email: formData.get('email'),
       password: formData.get('password'),
       passwordConfirmation: formData.get('passwordConfirmation')
@@ -101,21 +97,6 @@ export async function sendAuthCode(_prevState: FormState, formData: FormData): P
       message: 'システムエラーが発生しました'
     }
   }
-}
-
-/**
- * ユーザーが既に存在するかどうかを確認
- * @param email メールアドレス
- * @returns ユーザーが既に存在するかどうか
- */
-async function userAlreadyExists(email: string) {
-  const user = await prisma.user.findUnique({
-    where: {
-      email
-    }
-  })
-
-  return user !== null
 }
 
 /**
